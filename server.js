@@ -7,11 +7,13 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
+const restaurant = require('./modules/restaurant');
+
 // bringing in mongoose
 const mongoose = require("mongoose");
 
 // bring in code from model
-const Book = require("./models/reservation");
+const Reservation = require("./models/reservation");
 
 // bring in auth code
 const verifyUser = require("./auth");
@@ -34,7 +36,7 @@ app.use(cors());
 app.use(express.json()); // must have this to receive json from a request
 
 // Define port and validate .env is running
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 app.use(verifyUser);
 
@@ -110,6 +112,8 @@ async function putReservations(req, res, next) {
     next(err);
   }
 }
+
+app.get('/restaurant', restaurant);
 
 app.get("*", (request, response) => {
   response.status(200).send("welcome");
