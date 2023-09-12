@@ -7,13 +7,14 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const restaurant = require('./modules/restaurant');
 
 // bringing in mongoose
 const mongoose = require("mongoose");
 
 // bring in code from model
 const Reservation = require("./models/reservation");
+const getYelpData = require("./modules/restaurant.js");
+console.log(getYelpData);
 
 // bring in auth code
 const verifyUser = require("./auth");
@@ -38,7 +39,7 @@ app.use(express.json()); // must have this to receive json from a request
 // Define port and validate .env is running
 const PORT = process.env.PORT || 3002;
 
-app.use(verifyUser);
+// app.use(verifyUser);
 
 // Routes
 app.get("/test", (request, response) => {
@@ -113,7 +114,7 @@ async function putReservations(req, res, next) {
   }
 }
 
-app.get('/restaurant', restaurant);
+app.get('/restaurant', getYelpData);
 
 app.get("*", (request, response) => {
   response.status(200).send("welcome");

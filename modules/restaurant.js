@@ -4,20 +4,26 @@ const axios = require('axios');
 
 
 const yelpAPIKey = process.env.YELP_API_KEY;
+console.log('inside restaurant.js', yelpAPIKey);
+
 
 const getYelpData = async (req, res) => {
-  try{
+  console.log('is this working?');
+  // try{
     const {lat, lon} = req.query;
+    console.log(req.query);
     const yelpUrl = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`;
+    console.log('yelp URL key:', yelpUrl);
     const headers = {
       Authorization: `Bearer ${yelpAPIKey}`,
     };
     const response = await axios.get(yelpUrl, { headers });
     const yelpArr = response.data.businesses.map(restaurant => new Yelp(restaurant));
+    console.log(yelpArr);
     res.status(200).send(yelpArr);
-  } catch(e) {
-    return Promise.reject(e);
-  }
+  // } catch(e) {
+  //   return Promise.reject(e);
+  // }
 };
 
 class Yelp {
