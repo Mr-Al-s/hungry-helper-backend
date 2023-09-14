@@ -6,6 +6,7 @@ console.log("Hello World");
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+// const bodyParser = require('body-parser');
 
 // Define port and validate .env is running
 const PORT = process.env.PORT || 3002;
@@ -17,6 +18,7 @@ const mongoose = require("mongoose");
 const Reservation = require("./models/reservation");
 const getYelpData = require("./modules/restaurant.js");
 console.log(getYelpData);
+const getAIData = require("./modules/filteredRestaurant");
 
 // use
 const app = express();
@@ -38,6 +40,11 @@ db.once("open", function () {
 // connect mongoose to mongoDB
 mongoose.connect(process.env.DB_URL);
 
+// Routes
+
+app.get('/restaurant', getYelpData);
+// app.use(bodyParser.json());
+app.post('/filteredRestaurant', getAIData);
 // app.use(verifyUser);
 // No login is required to look up restaurants aka no middleware
 // To post to restaurants we need middleware that verifies a jwt token sent from the client created by auth0
@@ -120,7 +127,6 @@ async function putReservations(req, res, next) {
   }
 }
 
-app.get('/restaurant', getYelpData);
 
 app.get("*", (request, response) => {
   response.status(200).send("welcome");
