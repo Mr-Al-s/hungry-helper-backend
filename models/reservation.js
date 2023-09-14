@@ -9,9 +9,10 @@ const { Schema } = mongoose;
 // create a book schema
 const reservationSchema = new Schema({
   name: {type: String, required: true},
-  date: {type: Date, required: true},
-  time: {type: Number, required: true},
-  numberOfGuests: {type: Number, required: true}
+  date: {type: String, required: true},
+  time: {type: String, required: true},
+  numberOfGuests: {type: String, required: true},
+  userEmail: {type: String, required: true}
 });
 
 // create a model and tell the model about the rules AKA schema

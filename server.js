@@ -7,6 +7,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
+// Define port and validate .env is running
+const PORT = process.env.PORT || 3002;
 
 // bringing in mongoose
 const mongoose = require("mongoose");
@@ -15,6 +17,13 @@ const mongoose = require("mongoose");
 const Reservation = require("./models/reservation");
 const getYelpData = require("./modules/restaurant.js");
 console.log(getYelpData);
+
+// use
+const app = express();
+
+//middleware
+app.use(cors());
+app.use(express.json()); // must have this to receive json from a request
 
 // bring in auth code
 const verifyUser = require("./auth");
@@ -29,17 +38,9 @@ db.once("open", function () {
 // connect mongoose to mongoDB
 mongoose.connect(process.env.DB_URL);
 
-// use
-const app = express();
-
-//middleware
-app.use(cors());
-app.use(express.json()); // must have this to receive json from a request
-
-// Define port and validate .env is running
-const PORT = process.env.PORT || 3002;
-
 // app.use(verifyUser);
+// No login is required to look up restaurants aka no middleware
+// To post to restaurants we need middleware that verifies a jwt token sent from the client created by auth0
 
 // Routes
 app.get("/test", (request, response) => {
@@ -58,13 +59,17 @@ app.delete("/reservations/:id", deleteReservations);
 app.put("/reservations/:id", putReservations);
 
 async function getReservations(req, res, next) {
-  console.log(req.user);
+  // console.log('request user email', req);
+  // const email = req.user?.email || 'dummyemail@getMaxListeners.com';
+  console.log('searching for user', req);
   const email = req.user.email;
-  // console.log('req object --------->>>>>>', email);
+  console.log('req object --------->>>>>>', email);
   try {
     let results = await Reservation.find({userEmail: email});
+    console.log(results);
     res.status(200).send(results);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 
@@ -72,6 +77,7 @@ async function getReservations(req, res, next) {
 
 async function postReservations(req, res, next) {
   const email = req.user.email;
+  
   // adding a new Book object to database
   console.log(req.body); // req.body is when we request/post new Book from front end into our json
   try {
