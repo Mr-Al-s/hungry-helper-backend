@@ -9,6 +9,9 @@ const { Schema } = mongoose;
 // create a book schema
 const reservationSchema = new Schema({
   name: {type: String, required: true},
+  image:{type: String, required: true},
+  address:{type: String, required: true},
+  price:{type: String, required: true},
   date: {type: String, required: true},
   time: {type: String, required: true},
   numberOfGuests: {type: String, required: true},

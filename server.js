@@ -38,7 +38,9 @@ db.once("open", function () {
 // connect mongoose to mongoDB
 mongoose.connect(process.env.DB_URL);
 
-// app.use(verifyUser);
+app.get('/restaurant', getYelpData);
+app.delete("/reservations/:id", deleteReservations);
+app.use(verifyUser);
 // No login is required to look up restaurants aka no middleware
 // To post to restaurants we need middleware that verifies a jwt token sent from the client created by auth0
 
@@ -55,13 +57,12 @@ app.post("/reservations", postReservations);
 // Ex:
 // http://localhost:3001/books/64e7946a9f6341831bf7908d
 // the colon in the search query declares a variable -> ex: let id = ...
-app.delete("/reservations/:id", deleteReservations);
 app.put("/reservations/:id", putReservations);
 
 async function getReservations(req, res, next) {
   // console.log('request user email', req);
   // const email = req.user?.email || 'dummyemail@getMaxListeners.com';
-  console.log('searching for user', req);
+  console.log('searching for user', req.user);
   const email = req.user.email;
   console.log('req object --------->>>>>>', email);
   try {
@@ -120,7 +121,6 @@ async function putReservations(req, res, next) {
   }
 }
 
-app.get('/restaurant', getYelpData);
 
 app.get("*", (request, response) => {
   response.status(200).send("welcome");
