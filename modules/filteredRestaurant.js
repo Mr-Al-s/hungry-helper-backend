@@ -9,6 +9,7 @@ const headers = {
 
 const getAIData = async (req, res) => {
   const { criteria, data } = req.body;
+  console.log(data);
   const model = 'gpt-3.5-turbo';
   const prompt = `Filter the following array of restaurants that have ${criteria} on their menu: ${data}`;
   try {
@@ -16,7 +17,7 @@ const getAIData = async (req, res) => {
     const filteredData = response.data.choices[0].message.content;
     res.json({ filteredData });
   } catch (e) {
-    return Promise.reject(e);
+    return res.json({message: 'Something went wrong!'});
   }
 };
 
