@@ -1,7 +1,5 @@
 'use strict';
 
-// opposite of seed.js
-// running this with node clear.js will delete everybook in our database
 require('dotenv').config();
 const mongoose = require('mongoose');
 
