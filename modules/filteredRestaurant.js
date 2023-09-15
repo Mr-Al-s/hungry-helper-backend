@@ -8,9 +8,11 @@ const headers = {
 };
 
 const getAIData = async (req, res) => {
-  const {data, criteria} = req.query;
+  const { criteria, data } = req.body;
   console.log(data);
   console.log(criteria);
+  let parsedData = JSON.parse(data);
+  console.log(parsedData);
   const model = 'gpt-3.5-turbo';
   const prompt = `Filter the following array of restaurants that have ${criteria} on their menu: ${data}`;
   try {
