@@ -44,6 +44,7 @@ mongoose.connect(process.env.DB_URL);
 app.get('/restaurant', getYelpData);
 app.delete("/reservations/:id", deleteReservations);
 app.post('/filteredRestaurant', getAIData);
+app.put("/reservations/:id", putReservations);
 app.use(verifyUser);
 
 // No login is required to look up restaurants aka no middleware
@@ -62,7 +63,6 @@ app.post("/reservations", postReservations);
 // Ex:
 // http://localhost:3001/books/64e7946a9f6341831bf7908d
 // the colon in the search query declares a variable -> ex: let id = ...
-app.put("/reservations/:id", putReservations);
 
 async function getReservations(req, res, next) {
   // console.log('request user email', req);
@@ -112,6 +112,7 @@ async function deleteReservations(req, res, next) {
 
 async function putReservations(req, res, next) {
   const email = req.user.email;
+  console.log('email:', email);
   try {
     let id = req.params.id;
     let reservationFromReq = {...req.body, userEmail: email};
