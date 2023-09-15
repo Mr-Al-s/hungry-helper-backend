@@ -4,7 +4,6 @@ const axios = require('axios');
 
 
 const yelpAPIKey = process.env.YELP_API_KEY;
-console.log('inside restaurant.js', yelpAPIKey);
 
 
 const getYelpData = async (req, res) => {
