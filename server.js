@@ -40,11 +40,11 @@ db.once("open", function () {
 mongoose.connect(process.env.DB_URL);
 
 // Routes
+app.use(verifyUser);
 app.get('/restaurant', getYelpData);
 app.delete("/reservations/:id", deleteReservations);
 app.post('/filteredRestaurant', getAIData);
 app.put("/reservations/:id", putReservations);
-app.use(verifyUser);
 app.get("/test", (request, response) => {
   response.send("test request received");
 });
@@ -87,6 +87,7 @@ async function deleteReservations(req, res, next) {
 }
 
 async function putReservations(req, res, next) {
+  console.log('hit put reservations')
   const email = req.user.email;
   try {
     let id = req.params.id;
