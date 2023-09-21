@@ -17,7 +17,7 @@ const mongoose = require("mongoose");
 const Reservation = require("./models/reservation");
 const getYelpData = require("./modules/restaurant.js");
 console.log(getYelpData);
-const getAIData = require("./modules/filteredRestaurant");
+// const getAIData = require("./modules/filteredRestaurant");
 
 // use
 const app = express();
@@ -43,7 +43,7 @@ mongoose.connect(process.env.DB_URL);
 app.use(verifyUser);
 app.get('/restaurant', getYelpData);
 app.delete("/reservations/:id", deleteReservations);
-app.post('/filteredRestaurant', getAIData);
+// app.post('/filteredRestaurant', getAIData);
 app.put("/reservations/:id", putReservations);
 app.get("/test", (request, response) => {
   response.send("test request received");
