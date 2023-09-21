@@ -14,6 +14,7 @@ const getYelpData = async (req, res) => {
       Authorization: `Bearer ${yelpAPIKey}`,
     };
     const response = await axios.get(yelpUrl, { headers });
+    console.log(response.data.businesses[0].categories);
     const yelpArr = response.data.businesses.map(restaurant => new Yelp(restaurant));
     res.status(200).send(yelpArr);
   } catch(e) {
@@ -27,6 +28,8 @@ class Yelp {
     this.name = restaurant.name;
     this.address = `${restaurant.location.address1}, ${restaurant.location.city}, ${restaurant.location.state} ${restaurant.location.zip_code}`;
     this.price = restaurant.price;
+    this.food = restaurant.categories;
+    this.phone = restaurant.display_phone;
   }
 }
 
