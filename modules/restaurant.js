@@ -7,6 +7,7 @@ const yelpAPIKey = process.env.YELP_API_KEY;
 
 
 const getYelpData = async (req, res) => {
+  console.log(req.query);
   try{
     const {lat, lon} = req.query;
     const yelpUrl = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`;
